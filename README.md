@@ -8,7 +8,7 @@ pip install numpy
 Contains function *train_model()* that trains and returns an eigneface model.  
 Also contains a script to test the model.
   
-**training-date**  
+**training-data**  
 This directory contains the AT&T facedatabase, as well as additional pictures added to train the model.  
   
 All pictures input into the model for training and predicting must be 92x112, grayscale, .pgm files.  
