@@ -1,8 +1,8 @@
 # project
 **Setup**  
 ```  
-pip install opencv-contrib-python  
-pip install numpy  
+sudo apt update
+sudo apt install python3-opencv
 ```  
 **face.py**  
 Contains functions *train_model()* that trains and returns an eigneface model, *process_input()* that crops input images to be tested by the model and *make_prediction()* that performs the prediction on these images.  
@@ -12,9 +12,12 @@ This directory contains the AT&T facedatabase, as well as additional pictures ad
   
 All pictures input into the model for training and predicting must be 92x112, grayscale, .pgm files.  
 
+**face.c**  
+Contains functions to call Python python functions using embedded Python api.
+
 **main.c**  
-Used to call the afforementioned Python functions and store the results. Compile main.c with the following command: 
+Used to call functions from *face.c* and store the results. Compile main.c with the following command: 
 ```
-gcc main.c -o main -I/usr/include/python3.9 -lpython3.9
+gcc face.c main.c -o main -I/usr/include/python3.9 -lpython3.9
 ```  
-The filepath defined in main.c will have to be adjusted for whatever system the program is running on.
+Works independent of path. The only thing to be adjusted on different devices is in line 33 of **face.py**. "test3.pgm" must be changed to the name of whatever the program will label input images as.
