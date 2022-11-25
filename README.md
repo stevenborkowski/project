@@ -1,5 +1,10 @@
 # project
 **Setup**  
+On RaspberryPi
+```
+pip install opencv-contrib-python
+```  
+**NEW** On beaglebone...
 ```  
 sudo apt update
 sudo apt install python3-opencv
