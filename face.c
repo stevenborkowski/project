@@ -16,11 +16,12 @@ void Face_initialize()
     PyRun_SimpleString("sys.path.append(\".\")");
     pName = PyUnicode_DecodeFSDefault("face"); //assign name of module
     pModule = PyImport_Import(pName); //import module
-    ptrainFunc = PyObject_GetAttrString(pModule, PY_TRAIN_FUNC); //get raining function
+    printf("Our python module is imported...");
+    ptrainFunc = PyObject_GetAttrString(pModule, PY_TRAIN_FUNC); //get training function
     pemptyArgs = PyTuple_New(0);
     pModel = PyObject_CallObject(ptrainFunc, pemptyArgs); //train eigenface model
+    printf("Model is trained!\n");
     Py_DECREF(pName);
-
     return;
 }
 
@@ -30,9 +31,10 @@ int Face_recognize()
     pprocimFunc = PyObject_GetAttrString(pModule, PY_PROCIM_FUNC);
     pProcIm = PyObject_CallObject(pprocimFunc, pemptyArgs);
     if(pProcIm == NULL){
-        printf("ERROR: no image found");
+        printf("ERROR: no image found\n");
         return 0;
     }
+    printf("Image found\n");
     //Predict the class of the image
     ppredictFunc = PyObject_GetAttrString(pModule, PY_PREDICT_FUNC);
     ppredictArgs = PyTuple_Pack(2, pModel, pProcIm);
@@ -53,21 +55,21 @@ int Face_recognize()
     Py_DECREF(pclasslab);
     Py_DECREF(pdistance);
     if(preddistance < 3600){
+        printf("Face recognized\n");
         return 1;
     }else{
+        printf("Face not recognized");
         return 0;
     }
 }
 
 void Face_cleanup()
 {
-    Py_DECREF(pModule);
-    Py_DECREF(ptrainFunc);
-    Py_DECREF(pprocimFunc);
-    Py_DECREF(ppredictFunc);
-    Py_DECREF(pName);
-    Py_DECREF(pName);
-    Py_DECREF(pName);
+    if(pModule != NULL) Py_DECREF(pModule);
+    if(ptrainFunc != NULL)Py_DECREF(ptrainFunc);
+    if(pprocimFunc != NULL)Py_DECREF(pprocimFunc);
+    if(ppredictFunc != NULL)Py_DECREF(ppredictFunc);
+    if(pName != NULL)Py_DECREF(pName);
     Py_FinalizeEx();
     return;
 }
